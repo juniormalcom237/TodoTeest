@@ -142,24 +142,35 @@ class _HomeScreenState extends State<HomeScreen> {
                                         child: TextField(
                                           controller: _controller,
                                           autofocus: true,
-                                          onSubmitted: (v) {
+
+                                          onSubmitted: (title) {
                                             final todo = TodoEntity(
-                                              title: v,
+                                              title: title,
                                               isDone: false,
                                               id: null,
                                             );
-                                            context.read<TodoBloc>().add(
-                                              CreateTodoEvent(todo),
-                                            );
-                                            context.read<TodoBloc>().add(
-                                              LoadTodos(),
-                                            );
+                                            if (title.isNotEmpty) {
+                                              context.read<TodoBloc>().add(
+                                                CreateTodoEvent(todo),
+                                              );
+                                              context.read<TodoBloc>().add(
+                                                LoadTodos(),
+                                              );
+                                            } else {
+                                              ScaffoldMessenger.of(
+                                                context,
+                                              ).showSnackBar(
+                                                SnackBar(
+                                                  content: Text(
+                                                    "Title can't be empty",
+                                                  ),
+                                                  backgroundColor: Colors.red,
+                                                ),
+                                              );
+                                            }
+
                                             setState(() {
                                               isCLicked = false;
-
-                                              // listOfTask.add(
-                                              //   Task(text: v, isDone: false),
-                                              // );
                                               _controller.text = "";
                                             });
                                           },
@@ -171,6 +182,11 @@ class _HomeScreenState extends State<HomeScreen> {
                                           decoration: InputDecoration(
                                             hintText: "Task name",
                                             border: InputBorder.none,
+                                            errorBorder: OutlineInputBorder(
+                                              borderSide: BorderSide(
+                                                color: Colors.red,
+                                              ),
+                                            ),
                                             hintStyle: TextStyle(
                                               // fontFamily: "Montserrat",
                                               fontSize: 18,
