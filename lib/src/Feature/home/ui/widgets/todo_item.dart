@@ -4,15 +4,9 @@ import 'package:ficonsax/ficonsax.dart';
 import '../../domain/entities/todo.dart';
 
 class TodoItem extends StatelessWidget {
-  const TodoItem({
-    super.key,
-    required this.todo,
-    required this.onToggle,
-    // required this.onDelete,
-  });
+  const TodoItem({super.key, required this.todo, required this.onToggle});
   final TodoEntity todo;
   final VoidCallback onToggle;
-  // final VoidCallback onDelete;
 
   @override
   Widget build(BuildContext context) {

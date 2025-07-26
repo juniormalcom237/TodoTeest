@@ -37,7 +37,6 @@ class _HomeScreenState extends State<HomeScreen> {
                     setState(() {
                       isCLicked = true;
                     });
-                    print(state);
                   },
                   label: Text(
                     "Add a task",
@@ -93,8 +92,6 @@ class _HomeScreenState extends State<HomeScreen> {
                 final todos = todoState is TodoLoaded
                     ? todoState.todos
                     : (todoState as TodoSuccessful).todos;
-
-                print(todos);
 
                 if (todos.isEmpty && !state) {
                   return EmptyTask(context);
