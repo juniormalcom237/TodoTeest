@@ -26,7 +26,7 @@ class TodoBloc extends Bloc<TodoEvent, TodoState> {
     on<UpdateTodoEvent>(_onUpdateTodo);
     on<DeleteTodoEvent>(_onDeleteTodo);
     on<ToggleTodoEvent>(_onToggleTodo);
-    on<AddTodoClickEvent>(_addTodoClick);
+    // on<AddTodoClickEvent>(_addTodoClick);
   }
 
   Future<void> _onLoadTodos(LoadTodos event, Emitter<TodoState> emit) async {
@@ -69,7 +69,7 @@ class TodoBloc extends Bloc<TodoEvent, TodoState> {
       final todosResult = await getAllTodoUseCase();
       todosResult.fold(
         (failure) => emit(TodoError(failure.message)),
-        (todos) => emit(TodoSuccessful('Todo updated successfully', todos)),
+        (todos) => emit(TodoSuccessful(null, todos)),
       );
     });
   }
@@ -98,12 +98,5 @@ class TodoBloc extends Bloc<TodoEvent, TodoState> {
   ) async {
     final toggledTodo = event.todo.copyWith(isDone: !event.todo.isDone);
     add(UpdateTodoEvent(toggledTodo));
-  }
-
-  Future<void> _addTodoClick(
-    AddTodoClickEvent event,
-    Emitter<TodoState> emit,
-  ) async {
-    emit(ShowAddTodo(event.isClicked));
   }
 }

@@ -1,4 +1,5 @@
 import 'package:flutter/foundation.dart';
+import 'package:todo_test_app/src/Feature/home/data/local/database.dart';
 
 import '../../domain/entities/todo.dart';
 
@@ -14,11 +15,11 @@ class TodoLoaded extends TodoState {
   TodoLoaded(this.todos);
 }
 
-class ShowAddTodo extends TodoState {
-  final bool isCheck;
-
-  ShowAddTodo(this.isCheck);
-}
+// class ShowAddTodo extends TodoState {
+//   final bool isCheck;
+//
+//   ShowAddTodo(this.isCheck);
+// }
 
 class TodoError extends TodoState {
   final String message;
@@ -26,7 +27,7 @@ class TodoError extends TodoState {
 }
 
 class TodoSuccessful extends TodoState {
-  final String message;
+  final String? message;
   final List<TodoEntity> todos;
   TodoSuccessful(this.message, this.todos);
 }

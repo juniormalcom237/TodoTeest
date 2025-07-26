@@ -14,12 +14,6 @@ class CreateTodoEvent extends TodoEvent {
   CreateTodoEvent(this.todo);
 }
 
-class AddTodoClickEvent extends TodoEvent {
-  final bool isClicked;
-
-  AddTodoClickEvent(this.isClicked);
-}
-
 class DeleteTodoEvent extends TodoEvent {
   final int id;
   DeleteTodoEvent(this.id);

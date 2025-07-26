@@ -70,12 +70,14 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                 );
               } else if (state is TodoSuccessful) {
-                ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(
-                    content: Text(state.message),
-                    backgroundColor: Colors.green,
-                  ),
-                );
+                if (state.message != null) {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                      content: Text(state.message!),
+                      backgroundColor: Colors.green,
+                    ),
+                  );
+                }
               }
             },
             builder: (context, todoState) {
