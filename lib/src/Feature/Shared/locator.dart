@@ -2,7 +2,7 @@ import 'package:get_it/get_it.dart';
 import 'package:todo_test_app/src/Feature/home/domain/usecase/create_todo_usecase.dart';
 import 'package:todo_test_app/src/Feature/home/domain/usecase/delete_todo_usecase.dart';
 import 'package:todo_test_app/src/Feature/home/domain/usecase/get_all_todo_usecase.dart';
-import 'package:todo_test_app/src/Feature/home/domain/usecase/get_todo_by_id_usecase.dart';
+
 import 'package:todo_test_app/src/Feature/home/domain/usecase/update_todo_usecase.dart';
 import '../home/data/local/database.dart';
 import '../home/data/repository/todo_repository_impl.dart';
@@ -24,7 +24,7 @@ Future<void> init() async {
 
   // Use cases
   locator.registerLazySingleton(() => GetAllTodoUseCase(locator()));
-  locator.registerLazySingleton(() => GetTodoByIdUseCase(locator()));
+
   locator.registerLazySingleton(() => CreateTodoUseCase(locator()));
   locator.registerLazySingleton(() => UpdateTodoUseCase(locator()));
   locator.registerLazySingleton(() => DeleteTodoUseCase(locator()));

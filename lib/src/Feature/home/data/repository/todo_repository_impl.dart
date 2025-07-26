@@ -25,19 +25,6 @@ class TodoRepositoryImpl implements TodoRepository {
   }
 
   @override
-  Future<Either<Failure, TodoEntity>> getTodoById(int id) async {
-    try {
-      final todo = await database.getTodoById(id);
-      if (todo == null) {
-        return const Left(DatabaseFailure('Todo not found'));
-      }
-      return Right(todo as TodoEntity);
-    } catch (e) {
-      return Left(DatabaseFailure('Failed to get todo: ${e.toString()}'));
-    }
-  }
-
-  @override
   Future<Either<Failure, TodoEntity>> createTodo(TodoEntity todo) async {
     try {
       final companion = todo.toCompanion();
