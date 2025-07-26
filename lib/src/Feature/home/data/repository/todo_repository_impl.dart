@@ -1,13 +1,11 @@
 import 'package:dartz/dartz.dart';
-import 'package:drift/drift.dart';
+
 import 'package:todo_test_app/src/Feature/home/data/model/todo_model.dart';
 
 import '../../../../core/error/failure.dart';
 import '../../domain/entities/todo.dart';
 import '../../domain/repository/todo_repository.dart';
 import '../local/database.dart';
-// import'../model/todo_model.dart';
-// import '../local/database.dart';
 
 class TodoRepositoryImpl implements TodoRepository {
   final AppDatabase database;
