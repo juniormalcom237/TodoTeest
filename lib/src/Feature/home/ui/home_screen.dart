@@ -60,7 +60,24 @@ class _HomeScreenState extends State<HomeScreen> {
             backgroundColor: Theme.of(context).colorScheme.inversePrimary,
           ),
 
-          body: BlocBuilder<TodoBloc, TodoState>(
+          body: BlocConsumer<TodoBloc, TodoState>(
+            listener: (context, state) {
+              if (state is TodoError) {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(
+                    content: Text(state.message),
+                    backgroundColor: Colors.red,
+                  ),
+                );
+              } else if (state is TodoSuccessful) {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(
+                    content: Text(state.message),
+                    backgroundColor: Colors.green,
+                  ),
+                );
+              }
+            },
             builder: (context, todoState) {
               if (todoState is TodoInitial) {
                 context.read<TodoBloc>().add(LoadTodos());
@@ -78,7 +95,6 @@ class _HomeScreenState extends State<HomeScreen> {
                 print(todos);
 
                 if (todos.isEmpty && !state) {
-                  // showInputCubit.toggleShowInput(false);
                   return EmptyTask(context);
                 }
 
