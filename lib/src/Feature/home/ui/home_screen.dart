@@ -95,10 +95,6 @@ class _HomeScreenState extends State<HomeScreen> {
                 context.read<TodoBloc>().add(LoadTodos());
                 return const Center(child: CircularProgressIndicator());
               }
-              if (todoState is TodoLoading) {
-                return const Center(child: CircularProgressIndicator());
-              }
-
               if (todoState is TodoLoaded || todoState is TodoSuccessful) {
                 final todos = todoState is TodoLoaded
                     ? todoState.todos

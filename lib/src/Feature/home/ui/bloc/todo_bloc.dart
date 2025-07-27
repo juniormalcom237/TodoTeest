@@ -42,8 +42,6 @@ class TodoBloc extends Bloc<TodoEvent, TodoState> {
     CreateTodoEvent event,
     Emitter<TodoState> emit,
   ) async {
-    emit(TodoLoading());
-
     final result = await createTodoUseCase(event.todo);
     await result.fold((failure) async => emit(TodoError(failure.message)), (
       todo,
@@ -60,8 +58,6 @@ class TodoBloc extends Bloc<TodoEvent, TodoState> {
     UpdateTodoEvent event,
     Emitter<TodoState> emit,
   ) async {
-    emit(TodoLoading());
-
     final result = await updateTodoUseCase(event.todo);
     await result.fold((failure) async => emit(TodoError(failure.message)), (
       todo,
