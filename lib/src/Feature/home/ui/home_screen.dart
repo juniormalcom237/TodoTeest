@@ -18,9 +18,16 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   final showInputCubit = ShowTodoInputCubit();
   bool isCLicked = false;
+  late TextEditingController _controller;
 
   List<TodoEntity> todos = [];
-  final TextEditingController _controller = TextEditingController();
+
+  @override
+  void initState() {
+    _controller = TextEditingController();
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.sizeOf(context);
@@ -243,6 +250,11 @@ class _HomeScreenState extends State<HomeScreen> {
         );
       },
     );
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
   }
 }
 
