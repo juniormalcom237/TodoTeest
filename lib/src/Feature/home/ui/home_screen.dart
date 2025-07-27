@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:todo_test_app/src/Feature/home/ui/bloc/cubit/show_todo_input_cubit.dart';
 import 'package:todo_test_app/src/Feature/home/ui/bloc/todo_bloc.dart';
 import 'package:todo_test_app/src/Feature/home/ui/bloc/todo_state.dart';
+import 'package:todo_test_app/src/Feature/home/ui/services/todo_services.dart';
 import 'package:todo_test_app/src/Feature/home/ui/widgets/todo_item.dart';
 
 import '../domain/entities/todo.dart';
@@ -22,9 +23,12 @@ class _HomeScreenState extends State<HomeScreen> {
 
   List<TodoEntity> todos = [];
 
+  TodoService todoService = TodoService.instance;
+
   @override
   void initState() {
     _controller = TextEditingController();
+
     super.initState();
   }
 
@@ -101,7 +105,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     : (todoState as TodoSuccessful).todos;
 
                 if (todos.isEmpty && !state) {
-                  return EmptyTask(context);
+                  return emptyTask(context);
                 }
 
                 return SafeArea(
@@ -117,16 +121,13 @@ class _HomeScreenState extends State<HomeScreen> {
                               return Dismissible(
                                 direction: DismissDirection.endToStart,
                                 onDismissed: (direction) {
-                                  context.read<TodoBloc>().add(
-                                    DeleteTodoEvent(todo.id!),
-                                  );
+                                  todoService.deleteTask(context, todo.id!);
                                 },
                                 key: Key(todo.id.toString()),
                                 child: TodoItem(
                                   todo: todo,
-                                  onToggle: () => context.read<TodoBloc>().add(
-                                    ToggleTodoEvent(todo),
-                                  ),
+                                  onToggle: () =>
+                                      todoService.toggleTask(context, todo),
                                 ),
                               );
                             },
@@ -148,31 +149,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                           autofocus: true,
 
                                           onSubmitted: (title) {
-                                            final todo = TodoEntity(
-                                              title: title,
-                                              isDone: false,
-                                              id: null,
-                                            );
-                                            if (title.isNotEmpty) {
-                                              context.read<TodoBloc>().add(
-                                                CreateTodoEvent(todo),
-                                              );
-                                              context.read<TodoBloc>().add(
-                                                LoadTodos(),
-                                              );
-                                            } else {
-                                              ScaffoldMessenger.of(
-                                                context,
-                                              ).showSnackBar(
-                                                SnackBar(
-                                                  content: Text(
-                                                    "Title can't be empty",
-                                                  ),
-                                                  backgroundColor: Colors.red,
-                                                ),
-                                              );
-                                            }
-
+                                            todoService.addTask(context, title);
                                             setState(() {
                                               isCLicked = false;
                                               _controller.text = "";
@@ -192,7 +169,6 @@ class _HomeScreenState extends State<HomeScreen> {
                                               ),
                                             ),
                                             hintStyle: TextStyle(
-                                              // fontFamily: "Montserrat",
                                               fontSize: 18,
                                               color: Theme.of(
                                                 context,
@@ -258,7 +234,7 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 }
 
-Widget EmptyTask(BuildContext context) {
+Widget emptyTask(BuildContext context) {
   return Center(
     child: Column(
       mainAxisAlignment: MainAxisAlignment.center,
