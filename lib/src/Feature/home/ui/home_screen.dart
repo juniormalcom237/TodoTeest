@@ -56,7 +56,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     backgroundColor: Color(0xffF06B42),
                   ),
                 )
-              : null,
+              : SizedBox.shrink(),
           appBar: AppBar(
             centerTitle: true,
             title: Text(
