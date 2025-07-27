@@ -114,17 +114,12 @@ class _HomeScreenState extends State<HomeScreen> {
                             shrinkWrap: true,
                             itemBuilder: (ctx, index) {
                               final todo = todos[index];
-                              return Dismissible(
-                                direction: DismissDirection.endToStart,
-                                onDismissed: (direction) {
-                                  todoService.deleteTask(context, todo.id!);
-                                },
-                                key: Key(todo.id.toString()),
-                                child: TodoItem(
-                                  todo: todo,
-                                  onToggle: () =>
-                                      todoService.toggleTask(context, todo),
-                                ),
+                              return TodoItem(
+                                todo: todo,
+                                onToggle: () =>
+                                    todoService.toggleTask(context, todo),
+                                onDelete: () =>
+                                    todoService.deleteTask(context, todo.id!),
                               );
                             },
                             itemCount: todos.length,
@@ -132,83 +127,8 @@ class _HomeScreenState extends State<HomeScreen> {
 
                           SizedBox(
                             child: isCLicked
-                                ? Row(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.center,
-                                    children: [
-                                      Icon(IconsaxOutline.add_square, size: 22),
-                                      SizedBox(width: 10),
-                                      SizedBox(
-                                        width: size.width * 0.8,
-                                        child: TextField(
-                                          controller: _controller,
-                                          autofocus: true,
-
-                                          onSubmitted: (title) {
-                                            todoService.addTask(context, title);
-                                            setState(() {
-                                              isCLicked = false;
-                                              _controller.text = "";
-                                            });
-                                          },
-                                          style: TextStyle(
-                                            fontFamily: "Montserrat",
-                                            fontSize: 18,
-                                            fontWeight: FontWeight.w500,
-                                          ),
-                                          decoration: InputDecoration(
-                                            hintText: "Task name",
-                                            border: InputBorder.none,
-                                            errorBorder: OutlineInputBorder(
-                                              borderSide: BorderSide(
-                                                color: Colors.red,
-                                              ),
-                                            ),
-                                            hintStyle: TextStyle(
-                                              fontSize: 18,
-                                              color: Theme.of(
-                                                context,
-                                              ).colorScheme.secondary,
-                                              fontWeight: FontWeight.w500,
-                                            ),
-                                          ),
-                                        ),
-                                      ),
-                                    ],
-                                  )
-                                : Column(
-                                    children: [
-                                      SizedBox(height: 10),
-                                      GestureDetector(
-                                        onTap: () {
-                                          setState(() {
-                                            isCLicked = true;
-                                          });
-                                        },
-                                        child: Row(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          children: [
-                                            Icon(
-                                              IconsaxOutline.add_square,
-                                              size: 22,
-                                            ),
-                                            SizedBox(width: 9),
-                                            Text(
-                                              "Click to add a new task",
-                                              style: TextStyle(
-                                                fontSize: 16,
-                                                color: Theme.of(
-                                                  context,
-                                                ).colorScheme.secondary,
-                                                fontWeight: FontWeight.w500,
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                    ],
-                                  ),
+                                ? iconTextField(size, context)
+                                : todoInstructionText(context),
                           ),
                         ],
                       ),
@@ -221,6 +141,78 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
         );
       },
+    );
+  }
+
+  Row iconTextField(Size size, BuildContext context) {
+    return Row(
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: [
+        Icon(IconsaxOutline.add_square, size: 22),
+        SizedBox(width: 10),
+        SizedBox(
+          width: size.width * 0.8,
+          child: TextField(
+            controller: _controller,
+            autofocus: true,
+
+            onSubmitted: (title) {
+              todoService.addTask(context, title);
+              setState(() {
+                isCLicked = false;
+                _controller.text = "";
+              });
+            },
+            style: TextStyle(
+              fontFamily: "Montserrat",
+              fontSize: 18,
+              fontWeight: FontWeight.w500,
+            ),
+            decoration: InputDecoration(
+              hintText: "Task name",
+              border: InputBorder.none,
+              errorBorder: OutlineInputBorder(
+                borderSide: BorderSide(color: Colors.red),
+              ),
+              hintStyle: TextStyle(
+                fontSize: 18,
+                color: Theme.of(context).colorScheme.secondary,
+                fontWeight: FontWeight.w500,
+              ),
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+
+  Column todoInstructionText(BuildContext context) {
+    return Column(
+      children: [
+        SizedBox(height: 10),
+        GestureDetector(
+          onTap: () {
+            setState(() {
+              isCLicked = true;
+            });
+          },
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Icon(IconsaxOutline.add_square, size: 22),
+              SizedBox(width: 9),
+              Text(
+                "Click to add a new task",
+                style: TextStyle(
+                  fontSize: 16,
+                  color: Theme.of(context).colorScheme.secondary,
+                  fontWeight: FontWeight.w500,
+                ),
+              ),
+            ],
+          ),
+        ),
+      ],
     );
   }
 

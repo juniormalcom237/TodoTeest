@@ -5,7 +5,7 @@ import 'package:todo_test_app/src/Feature/home/domain/usecase/create_todo_usecas
 import 'package:todo_test_app/src/Feature/home/domain/usecase/delete_todo_usecase.dart';
 import 'package:todo_test_app/src/Feature/home/domain/usecase/get_all_todo_usecase.dart';
 import 'package:todo_test_app/src/Feature/home/domain/usecase/update_todo_usecase.dart';
-import 'package:todo_test_app/src/Feature/home/ui/bloc/cubit/show_todo_input_cubit.dart';
+
 import 'package:todo_test_app/src/Feature/home/ui/bloc/todo_event.dart';
 import 'package:todo_test_app/src/Feature/home/ui/bloc/todo_state.dart';
 
@@ -26,7 +26,6 @@ class TodoBloc extends Bloc<TodoEvent, TodoState> {
     on<UpdateTodoEvent>(_onUpdateTodo);
     on<DeleteTodoEvent>(_onDeleteTodo);
     on<ToggleTodoEvent>(_onToggleTodo);
-    // on<AddTodoClickEvent>(_addTodoClick);
   }
 
   Future<void> _onLoadTodos(LoadTodos event, Emitter<TodoState> emit) async {
