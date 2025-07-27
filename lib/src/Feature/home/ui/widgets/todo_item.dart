@@ -19,7 +19,7 @@ class TodoItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return Dismissible(
       direction: DismissDirection.endToStart,
-      onDismissed: (direction) => onDelete,
+      onDismissed: (direction) => onDelete(),
       key: Key(todo.id.toString()),
       child: SizedBox(
         child: Column(
